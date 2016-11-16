@@ -1,0 +1,11 @@
+# virtual env
+env
+
+# Python cache
+__pycache__
+*.pyc
+
+# Benchmark and test output
+example.log
+.cache
+.coverage
