@@ -20,7 +20,6 @@ setup(
 	packages = [
 		'logwood',
 		'logwood.handlers',
-		'logwood.logging',
 	],
 	classifiers = [
 		'Development Status :: 4 - Beta',
