@@ -15,7 +15,7 @@ def handler():
 
 @pytest.fixture
 def logger(handler):
-	logwood.basic_config()
+	logwood.basic_config(handlers = [])
 	return Logger('TestLogger', [handler])
 
 

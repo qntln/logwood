@@ -75,8 +75,8 @@ def test_calling_basic_config_multiple_times():
 	assert logwood.state.config_called
 
 	# But until the first logger is created it can be called multiple times
-	logwood.basic_config()
-	logwood.basic_config()
+	logwood.basic_config(handlers = [])
+	logwood.basic_config(handlers = [])
 
 	# now create some loggers
 	logwood.get_logger('A')
@@ -88,14 +88,14 @@ def test_calling_basic_config_multiple_times():
 
 	# After loggers are created it is impossible to change logging settings
 	with pytest.raises(AssertionError):
-		logwood.basic_config()
+		logwood.basic_config(handlers = [])
 
 
 def test_logger_caching():
 	'''
 	Test that loggers are properly cached
 	'''
-	logwood.basic_config(level = logwood.DEBUG)
+	logwood.basic_config(handlers = [], level = logwood.DEBUG)
 
 	logger = logwood.get_logger('A')
 	logger2 = logwood.get_logger('A')
