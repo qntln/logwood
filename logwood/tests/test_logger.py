@@ -54,3 +54,12 @@ def test_exception(handler, logger):
 		assert 'Traceback' in message
 		assert 'My value error' in message
 		assert 'ValueError' in message
+
+
+def test_last_resort(handler, logger, capsys):
+	handler.handle.side_effect = RuntimeError
+	logger.info('Boom!')
+	_, stderr = capsys.readouterr()
+	assert 'LOGWOOD ERROR - cannot log record' in stderr
+	assert 'Boom!' in stderr
+	assert 'RuntimeError' in stderr

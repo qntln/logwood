@@ -108,7 +108,8 @@ class Logger:
 			'message': message,
 			'args': args
 		})
-		for handler in global_config.default_handlers:
-			handler.handle(record)
-		for handler in self.handlers:
-			handler.handle(record)
+		for handler in global_config.default_handlers + self.handlers:
+			try:
+				handler.handle(record)
+			except:
+				global_config.last_resort_handler(record)

@@ -1,4 +1,4 @@
-from logwood import constants
+from logwood import constants, last_resort
 
 
 
@@ -12,3 +12,5 @@ default_record_variables = {
 	'hostname': '-',
 	'system_identifier': '-'
 }
+
+last_resort_handler = last_resort.print_to_stderr
