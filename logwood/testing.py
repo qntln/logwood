@@ -1,5 +1,6 @@
 import unittest
 import logwood
+import logwood.state
 
 
 
@@ -9,6 +10,8 @@ def reset_state() -> None:
 	'''
 	logwood.state.config_called = False
 	logwood.state.defined_loggers.clear()
+	logwood.shutdown()
+	logwood.state.defined_handlers.clear()
 
 
 
