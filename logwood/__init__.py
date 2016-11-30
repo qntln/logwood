@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import Iterable, Dict, Any
 
 import socket
 import sys
@@ -7,12 +7,13 @@ import weakref
 from logwood import global_config, state
 from logwood.base_handler import Handler
 from logwood.logger import Logger
+from logwood.handlers.stderr import ColoredStderrHandler
 
 from logwood.constants import CRITICAL, FATAL, ERROR, WARNING, WARN, INFO, DEBUG, NOTSET # noqa
 
 
 
-def basic_config(handlers: List[Handler], format: str = global_config.default_format,
+def basic_config(handlers: Iterable[Handler] = (ColoredStderrHandler(),), format: str = global_config.default_format,
 level: int = global_config.default_log_level, record_variables: Dict[str, Any] = None) -> None:
 	'''
 	:param record_variables: Additional variables that will be baked into each logged message.
