@@ -56,3 +56,28 @@ that do not make this a drop-in replacement:
 Call :code:`logwood.compat.redirect_standard_logging()` to configure the standard :code:`logging` module to send
 all messages to :code:`logwood` for handling. You can use this to run a :code:`logwood`-based application that
 nevertheless works with any 3rd-party libraries using :code:`logging`.
+
+
+py.test fixtures
+----------------
+For testing convenience there are prepared two fixtures: :code:`configure_and_reset_logwood` and :code:`logwood_handler_mock`.
+:code:`configure_and_reset_logwood` is autouse fixture, i.e. is run before every test of projects that import logwood.
+It calls :code:`logwood.basic_config` with stderr handler so you don't have to care about logwood configuration
+in tests and you can see logs when your test fails.
+Fixture :code:`logwood_handler_mock` is mocked handler. It stores all messages in a dict of list so you can easily find
+your message. To identify the level you can use either string (upper/lowercase) or constant from logging or logwood:
+
+.. code-block:: python
+
+    import logwood
+
+    def some_func():
+        logger = logwood.get_logger('test_logger')
+        logger.warning('Something is wrong with id {}', 42)
+
+
+    def test_logwood(logwood_handler_mock):
+        some_func()
+        assert 'Something is wrong with id 42' in logwood_handler_mock['WARNING']
+        assert not logwood_handler_mock['error']
+        assert any(m.startswith('Something') for m in logwood_handler_mock[logwood.WARNING])

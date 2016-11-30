@@ -21,6 +21,11 @@ setup(
 		'logwood',
 		'logwood.handlers',
 	],
+	entry_points = {
+		'pytest11': [
+			'logwood = logwood.testing'
+		]
+	},
 	classifiers = [
 		'Development Status :: 4 - Beta',
 		'License :: OSI Approved :: Apache Software License',
