@@ -60,24 +60,25 @@ nevertheless works with any 3rd-party libraries using :code:`logging`.
 
 py.test fixtures
 ----------------
-For testing convenience there are prepared two fixtures: :code:`configure_and_reset_logwood` and :code:`logwood_handler_mock`.
-:code:`configure_and_reset_logwood` is autouse fixture, i.e. is run before every test of projects that import logwood.
-It calls :code:`logwood.basic_config` with stderr handler so you don't have to care about logwood configuration
-in tests and you can see logs when your test fails.
-Fixture :code:`logwood_handler_mock` is mocked handler. It stores all messages in a dict of list so you can easily find
-your message. To identify the level you can use either string (upper/lowercase) or constant from logging or logwood:
+For testing convenience there are two fixtures prepared: :code:`configure_and_reset_logwood` and :code:`logwood_handler_mock`.
+:code:`configure_and_reset_logwood` is an autouse fixture, i.e. it is run before every test in projects that use logwood.
+It calls :code:`logwood.basic_config` to set a stderr handler so you don't have to care about logwood configuration
+in tests, and you can see logs when your test fails.
+The :code:`logwood_handler_mock` fixture is a mock handler. This is useful for testing how your code uses logwood.
+It stores all messages in a dict of lists so you can easily find your messages. To identify the level you can use
+either strings (upper/lowercase) or constants from logging or logwood:
 
 .. code-block:: python
 
-    import logwood
+	import logwood
 
-    def some_func():
-        logger = logwood.get_logger('test_logger')
-        logger.warning('Something is wrong with id {}', 42)
+	def some_func():
+		logger = logwood.get_logger('test_logger')
+		logger.warning('Something is wrong with id {}', 42)
 
 
-    def test_logwood(logwood_handler_mock):
-        some_func()
-        assert 'Something is wrong with id 42' in logwood_handler_mock['WARNING']
-        assert not logwood_handler_mock['error']
-        assert any(m.startswith('Something') for m in logwood_handler_mock[logwood.WARNING])
+	def test_logwood(logwood_handler_mock):
+		some_func()
+		assert 'Something is wrong with id 42' in logwood_handler_mock['WARNING']
+		assert not logwood_handler_mock['error']
+		assert any(m.startswith('Something') for m in logwood_handler_mock[logwood.WARNING])
